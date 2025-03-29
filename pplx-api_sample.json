@@ -1,0 +1,33 @@
+from openai import OpenAI
+
+# Set your API key and endpoint
+API_KEY = "Insert Key Here."
+BASE_URL = "https://api.perplexity.ai/chat/completions"
+
+# Define the headers for authentication
+headers = {
+    "Authorization": f"Bearer {API_KEY}",
+    "Content-Type": "application/json",
+    "Accept": "application/json"
+}
+
+# Define the payload for the API request
+payload = {
+    "model": "mistral-7b-instruct",  # Choose your preferred model
+    "messages": [
+        {"role": "system", "content": "You are an expert market researcher for growth and value stocks listed on US exchanges."},
+        {"role": "user", "content": "Give a concise but accurate summary on the reasons why the US stock market had a roller coaster week with a higher valuation in the beginning of the week and a sharp sell-off at the end of the week."}
+    ],
+    "max_tokens": 100,
+    "temperature": 0.7,
+    "stream": False  # Set to True for streaming responses
+}
+
+# Make the POST request to the API
+response = requests.post(BASE_URL, headers=headers, json=payload)
+
+# Check if the request was successful and print the response
+if response.status_code == 200:
+    print("Response:", response.json())
+else:
+    print(f"Error: {response.status_code}, {response.text}")
